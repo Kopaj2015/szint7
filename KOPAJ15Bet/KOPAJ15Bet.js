@@ -1,23 +1,30 @@
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
-
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
+  Accounts.ui.config({
+    requestPermissions: {},
+    requestOfflineToken: {},
+    passwordSignupFields: "USERNAME_ONLY",
   });
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
+  Meteor.startup(function() {
+    if(Meteor.users.find().count()<1) {
+      var users = [
+        { name: 'admin', email: 'admin@admin.com', password: 'admin', roles: ['admin'] }
+      ];
+      _.each(users, function(d) {
+        var userId = Accounts.createUser({
+          email: d.email,
+          password: d.password,
+          username: d.name,
+          profile: {
+            name: d.name
+          }
+        });
+        Meteor.users.update({ _id: userId }, { $set: { 'emails.0.verified': true } });
+        Roles.addUsersToRoles(userId, d.roles);
+      });
+    }
   });
 }

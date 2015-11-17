@@ -3,12 +3,20 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>TOPKEK!</h1>
+  {{> alignedLoginButtons}}
 
-  {{> hello}}
+  {{#if currentUser}}
+     <h1>REEETEK</h1>
+      {{#if isInRole 'admin'}}
+        <h1>es admin is</h1>
+        {{/if}}
+  {{/if}}
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+
+<template name="alignedLoginButtons">
+    <div class="rightAlign">
+      {{> loginButtons align="right"}}
+    </div>
 </template>
