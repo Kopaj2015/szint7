@@ -1,0 +1,9 @@
+<template name="ranks">
+  <h3 class="page-header">Ranks</h3>
+
+  <ul class="list-group">
+    {{#each this}}
+      <li class="list-group-item"><strong>{{floor}}</strong> - {{rank}}</li>
+    {{/each}}
+  </ul>
+</template>
